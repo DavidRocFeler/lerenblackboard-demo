@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, User, GraduationCap, School, Calendar, BookOpen, Award, Users, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { User, GraduationCap, School, Calendar, BookOpen, Award, Users, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { IGradeBookStudent } from '@/interface/types';
 
 interface GradeBookProps {
@@ -7,7 +7,7 @@ interface GradeBookProps {
   onBackToProfile: () => void;
 }
 
-const GradeBook: React.FC<GradeBookProps> = ({ data, onBackToProfile }) => {
+const GradeBook: React.FC<GradeBookProps> = ({ data }) => {
   const getGradeColor = (grade: string) => {
     switch (grade) {
       case 'AD': return 'text-green-700 bg-green-100';
@@ -15,16 +15,6 @@ const GradeBook: React.FC<GradeBookProps> = ({ data, onBackToProfile }) => {
       case 'B': return 'text-yellow-700 bg-yellow-100';
       case 'C': return 'text-red-700 bg-red-100';
       default: return 'text-gray-700 bg-gray-100';
-    }
-  };
-
-  const getGradeDescription = (grade: string) => {
-    switch (grade) {
-      case 'AD': return 'Logro destacado';
-      case 'A': return 'Logro esperado';
-      case 'B': return 'En proceso';
-      case 'C': return 'En inicio';
-      default: return 'Sin calificar';
     }
   };
 

@@ -1,6 +1,5 @@
-import { Notebook, ChevronLeft, ChevronRight, Loader2, Check, X, Calendar, Maximize2, Minimize2 } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
-import { format, addDays, subDays, isWeekend, getDay } from "date-fns";
+import { Calendar, Minimize2 } from "lucide-react";
+import { format, isWeekend, } from "date-fns";
 
 interface NoteData {
   date: string;
@@ -8,11 +7,6 @@ interface NoteData {
   attendance: "Presente" | "Ausente";
   notes: string[];
 }
-
-interface NotesSectionProps {
-  initialDate?: Date;
-}
-
 const CalendarControl = ({ 
   fechaSeleccionada, 
   setFechaSeleccionada,

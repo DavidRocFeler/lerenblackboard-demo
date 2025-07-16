@@ -1,5 +1,3 @@
-import { BookText } from "lucide-react";
-import { useState } from "react";
 import { ISubject } from "@/interface/types";
 
 // Componente para la tarjeta de materia

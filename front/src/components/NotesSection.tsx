@@ -1,4 +1,4 @@
-import { Notebook, ChevronLeft, ChevronRight, Loader2, Check, X, Calendar, Maximize2, Minimize2 } from "lucide-react";
+import { Notebook, ChevronLeft, ChevronRight, Loader2, Check, X, Maximize2, Minimize2 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { format, addDays, subDays } from "date-fns";
 import CalendarControl from "./CalendarControl";
@@ -84,7 +84,7 @@ const NotesSection = ({ initialDate = new Date() }: NotesSectionProps) => {
 
   useEffect(() => {
     fetchNoteForDate(currentDate);
-  }, [currentDate]);
+  }, [currentDate, fetchNoteForDate]);
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = new Date(e.target.value);

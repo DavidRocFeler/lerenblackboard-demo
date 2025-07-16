@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from "react";
 import { BookText } from "lucide-react";
-import { ISyllabusProps } from "@/interface/types";
 import { ISubject } from "@/interface/types";
 import { subjectsData } from "@/helpers/dataSyllabus.helper";
 import SubjectDetails from "./SubjectDetails";

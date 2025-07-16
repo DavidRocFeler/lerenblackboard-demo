@@ -101,9 +101,9 @@ export interface IStudent {
   pendingPayments?: {
     data: IPayment[]
   }
-  controlStudent?: {
+  // controlStudent?: {
 
-  }
+  // }
   countableBook?: {
     payments: {
       data: IPaymentHistory[],

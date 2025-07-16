@@ -1,7 +1,4 @@
 import { IStudent } from "@/interface/types";
-import { X } from "lucide-react";
-
-
 
 const BalanceSection: React.FC<IStudent> = ({ balance }) => {
   return (
