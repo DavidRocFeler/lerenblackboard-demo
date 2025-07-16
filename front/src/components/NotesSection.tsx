@@ -84,7 +84,7 @@ const NotesSection = ({ initialDate = new Date() }: NotesSectionProps) => {
 
   useEffect(() => {
     fetchNoteForDate(currentDate);
-  }, [currentDate, fetchNoteForDate]);
+  }, [currentDate]);
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = new Date(e.target.value);
