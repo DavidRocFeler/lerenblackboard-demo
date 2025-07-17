@@ -11,7 +11,6 @@ const Students = () => {
   const [currentDatePeru, setCurrentDatePeru] = useState<string>('');
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
 
-
   const students = [
     { id: 'student-1', name: 'Valentina A.' },
     { id: 'student-2', name: 'Alessca' },
@@ -40,20 +39,16 @@ const Students = () => {
     { id: 'student-25', name: 'Carlos' }
   ];
 
-  // Función para obtener y actualizar la fecha actual en horario de Perú (UTC-5)
   const updatePeruDate = () => {
     const now = new Date();
-    // Ajustar a UTC-5 (horario de Perú)
     const peruOffset = -5 * 60 * 60 * 1000;
     const peruTime = new Date(now.getTime() + peruOffset);
-    
     const year = peruTime.getUTCFullYear();
     const month = (peruTime.getUTCMonth() + 1).toString().padStart(2, '0');
     const day = peruTime.getUTCDate().toString().padStart(2, '0');
     setCurrentDatePeru(`${year}-${month}-${day}`);
   };
 
-  // Función para formatear la fecha como MM/DD
   const formatDate = (dateString: string) => {
     if (!dateString) return '';
     const date = new Date(dateString);
@@ -62,12 +57,10 @@ const Students = () => {
     return `${month}/${day}`;
   };
 
-  // Actualizar la fecha al cargar y cada día
   useEffect(() => {
     updatePeruDate();
-    // Configurar intervalo para actualizar a medianoche (hora Perú)
     const midnightPeru = new Date();
-    midnightPeru.setUTCHours(5, 0, 0, 0); // 00:00 hora Perú (UTC-5)
+    midnightPeru.setUTCHours(5, 0, 0, 0);
     if (new Date() > midnightPeru) {
       midnightPeru.setUTCDate(midnightPeru.getUTCDate() + 1);
     }
@@ -75,7 +68,6 @@ const Students = () => {
     
     const timer = setTimeout(() => {
       updatePeruDate();
-      // Ahora actualizar cada 24 horas
       setInterval(updatePeruDate, 24 * 60 * 60 * 1000);
     }, timeUntilMidnight);
 
@@ -128,157 +120,146 @@ const Students = () => {
   }
 
   return (
-    <div>
-      <div className="border-0 shadow-lg rounded-lg bg-white">
+    <div className="p-4">
+      <div className="bg-white rounded-lg shadow-lg">
+        {/* Header */}
         <div className="p-6">
-          <div className="flex flex-col md:items-center justify-start md:justify-between">
-            <div className='mr-auto w-full flex'>
-              <h2 className="text-xl font-bold text-blue-900">
-                Gestión de Alumnos
-              </h2>
-              <button className='ml-auto cursor-pointer py-1 px-2 rounded-lg bg-blue-600 text-white'> Guardar </button>             
+          <div className="flex flex-col gap-4">
+            <div className='flex flex-row'>
+              <h2 className="text-xl font-bold text-blue-900">Gestión de Alumnos</h2>
+              <button className="px-3 py-1 text-sm text-white bg-blue-600 rounded-lg ml-auto">
+                  Guardar
+              </button>              
             </div>
-            <div className="flex gap-2 mt-5 ml-auto w-full">
+            <div className="flex flex-col sm:flex-row gap-2">
               <button 
                 onClick={() => setActiveTab('status')}
-                className={`cursor-pointer px-3 py-1 rounded-md text-sm ${
-                  activeTab === 'status' 
-                    ? 'bg-blue-600 text-white' 
-                    : 'border border-gray-300 hover:bg-gray-50'
+                className={`px-3 py-1 rounded-md text-sm ${
+                  activeTab === 'status' ? 'bg-blue-600 text-white' : 'border border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 Estado de Pagos
               </button>
               <button 
                 onClick={() => setActiveTab('control')}
-                className={`cursor-pointer px-3 py-1 rounded-md text-sm ${
-                  activeTab === 'control' 
-                    ? 'bg-blue-600 text-white' 
-                    : 'border border-gray-300 hover:bg-gray-50'
+                className={`px-3 py-1 rounded-md text-sm ${
+                  activeTab === 'control' ? 'bg-blue-600 text-white' : 'border border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 Control Diario
               </button>
-              <button className="cursor-pointer border border-gray-300 hover:bg-gray-50 px-3 py-1 rounded-md text-sm flex items-center">
-                <Download className="h-4 w-4 mr-2" />
+              <button className="flex items-center justify-center gap-1 px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
+                <Download className="w-4 h-4" />
                 Exportar
               </button>
             </div>
           </div>
         </div>
 
+        {/* Contenido principal */}
         <div className="p-6 pt-0">
           {activeTab === 'status' ? (
-            <div className="border rounded-lg overflow-hidden">
-              <div className="w-full overflow-x-auto">
-                <div className="min-w-max">
-                  <div className="grid grid-cols-12 gap-2 font-medium text-sm text-gray-500 p-2 bg-gray-50">
-                    <div className="col-span-6">Alumno</div>
-                    <div className="col-span-3 text-center">Fecha</div>
-                    <div className="col-span-3 text-center">Estado</div>
-                  </div>
-                  
-                  {students.map((student) => (
-                    <div key={student.id} className="grid grid-cols-12 gap-2 items-center p-2 border-t hover:bg-gray-50">
-                      <div 
-                        className="col-span-6 font-medium cursor-pointer hover:text-blue-600"
-                        onClick={() => handleStudentClick(student.id)}
-                      >
-                        {student.name}
-                      </div>
-                      
-                      <div className="col-span-3 flex justify-center">
-                        <span className="text-[1rem] text-black">
-                          {formatDate(currentDatePeru)}
-                        </span>
-                      </div>
-                      
-                      <div className="col-span-3 flex justify-center">
-                        <span 
-                          className={`px-2 py-1 rounded-full text-xs cursor-pointer ${
-                            paymentStatus[student.id]
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                          onClick={() => togglePaymentStatus(student.id)}
-                        >
-                          {paymentStatus[student.id] ? "Pagado" : "Pendiente"}
-                        </span>
-                      </div>
+            /* Vista de Estado de Pagos */
+            <div className="border rounded-lg overflow-y-auto w-full">
+              {/* Encabezados */}
+              <div className="flex p-2 text-sm font-medium text-gray-500 bg-gray-50">
+                <div className="w-1/2">Alumno</div>
+                <div className="w-1/4 text-center">Fecha</div>
+                <div className="w-1/4 text-center">Estado</div>
+              </div>
+              
+              {/* Lista de estudiantes */}
+              <div className="divide-y w-full">
+                {students.map(student => (
+                  <div key={student.id} className="flex items-center p-2 hover:bg-gray-50">
+                    <div 
+                      className="w-1/2 font-medium cursor-pointer hover:text-blue-600"
+                      onClick={() => handleStudentClick(student.id)}
+                    >
+                      {student.name}
                     </div>
-                  ))}
-                </div>
+                    <div className="w-1/4 text-center text-black">
+                      {formatDate(currentDatePeru)}
+                    </div>
+                    <div className="w-1/4 text-center">
+                      <span 
+                        className={`inline-block px-2 py-1 text-xs cursor-pointer rounded-full ${
+                          paymentStatus[student.id] ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                        }`}
+                        onClick={() => togglePaymentStatus(student.id)}
+                      >
+                        {paymentStatus[student.id] ? "Pagado" : "Pendiente"}
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           ) : (
-            <div className="space-y-4">
-              <div className="border rounded-lg overflow-hidden">
-                <div className="w-[100%] sm:w-full overflow-x-auto">
-                  <div className="min-w-max">
-                    <div className="grid grid-cols-12 gap-2 font-medium text-sm text-gray-500 p-2 bg-gray-50">
-                      <div className="col-span-3">Alumno</div>
-                      <div className="col-span-2 text-center">Fecha</div>
-                      <div className="col-span-2 text-center">Asistencia</div>
-                      <div className="col-span-3 text-center">Copias Entregadas</div>
-                      <div className="col-span-2">Anotaciones</div>
+            /* Vista de Control Diario */
+            <div className="border rounded-lg overflow-y-auto responsive-gradual-width-students">
+              {/* Encabezados */}
+              <div className="p-2 text-sm font-medium text-gray-500 bg-gray-50 sm:space-x-0 grid grid-cols-5 w-[46rem] sm:w-full">
+                <div >Alumno</div>
+                <div className="text-center">Fecha</div>
+                <div className="text-center">Asistencia</div>
+                <div className="text-center mr-4">Copias</div>
+                <div >Anotaciones</div>
+              </div>
+              
+              {/* Lista de estudiantes */}
+              <div className="">
+                {students.map(student => (
+                  <div key={student.id} className="items-center p-2 hover:bg-gray-50 space-x-[3rem] sm:space-x-0 w-[46rem] sm:w-full grid grid-cols-5">
+                    {/* Nombre */}
+                    <div 
+                      className="w-[7rem] font-medium cursor-pointer hover:text-blue-600"
+                      onClick={() => handleStudentClick(student.id)}
+                    >
+                      {student.name}
                     </div>
                     
-                    {students.map((student) => (
-                      <div key={student.id} className="grid grid-cols-12 gap-2 items-center p-2 border-t hover:bg-gray-50">
-                        <div 
-                          className="col-span-3 font-medium cursor-pointer hover:text-blue-600"
-                          onClick={() => handleStudentClick(student.id)}
-                        >
-                          {student.name}
-                        </div>
-                        
-                        <div className="col-span-2 flex justify-center">
-                          <span className="text-[1rem] text-black">
-                            {formatDate(currentDatePeru)}
-                          </span>
-                        </div>
-                        
-                        <div className="col-span-2 flex justify-center">
-                          <button
-                            onClick={() => toggleAttendance(student.id)}
-                            className={`h-8 w-8 p-0 rounded-full flex items-center justify-center ${
-                              attendance[student.id] 
-                                ? 'bg-blue-600 text-white' 
-                                : 'border border-gray-300 hover:bg-gray-50'
-                            }`}
-                          >
-                            <Check className="h-4 w-4" />
-                          </button>
-                        </div>
-                        
-                        <div className="col-span-3">
-                          <div className="flex items-center gap-2">
-                            <input
-                              type="number"
-                              value={copies[student.id] || ''}
-                              onChange={(e) => handleCopyChange(student.id, e.target.value)}
-                              className="h-8 w-20 border border-gray-300 rounded-md px-2 focus:ring-blue-500 focus:border-blue-500"
-                              placeholder="0"
-                            />
-                            <Printer className="h-4 w-4 text-gray-400" />
-                          </div>
-                        </div>
-                        
-                        <div className="col-span-2">
-                          <div className="relative">
-                            <textarea
-                              value={notes[student.id] || ''}
-                              onChange={(e) => handleNoteChange(student.id, e.target.value)}
-                              placeholder="Observaciones"
-                              className="h-8 min-h-[32px] text-sm border border-gray-300 rounded-md px-2 py-1 w-full focus:ring-blue-500 focus:border-blue-500"
-                            />
-                            <ClipboardList className="absolute right-2 top-1 h-4 w-4 text-gray-400" />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                    {/* Fecha */}
+                    <div className="w-[4rem] sm:w-full items-center text-center text-black">
+                      {formatDate(currentDatePeru)}
+                    </div>
+                    
+                    {/* Asistencia */}
+                    <div className="w-[4rem] sm:w-full flex justify-center">
+                      <button
+                        onClick={() => toggleAttendance(student.id)}
+                        className={`flex items-center justify-center w-8 h-8 rounded-full ${
+                          attendance[student.id] ? 'bg-blue-600 text-white' : 'border border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        <Check className="w-4 h-4" />
+                      </button>
+                    </div>
+                    
+                    {/* Copias */}
+                    <div className="flex items-center w-fit justify-center gap-2 relative">
+                      <input
+                        type="number"
+                        value={copies[student.id] || ''}
+                        onChange={(e) => handleCopyChange(student.id, e.target.value)}
+                        className="w-20 h-8 pl-2 pr-6 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="0"
+                      />
+                      <Printer className="w-[1rem] text-gray-400 absolute right-1 top-1" />
+                    </div>
+                    
+                    {/* Anotaciones */}
+                    <div className="relative w-fit flex justify-center">
+                      <textarea
+                        value={notes[student.id] || ''}
+                        onChange={(e) => handleNoteChange(student.id, e.target.value)}
+                        placeholder="Observaciones"
+                        className="w-[11rem] h-8 min-h-[32px] pl-[0.5rem] pr-[2rem] py-1 text-sm border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                      />
+                      <ClipboardList className="absolute right-2 top-2 w-4 h-4 text-gray-400" />
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           )}
@@ -289,5 +270,3 @@ const Students = () => {
 };
 
 export default Students;
-
-

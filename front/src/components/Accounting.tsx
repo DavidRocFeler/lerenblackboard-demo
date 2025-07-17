@@ -10,7 +10,8 @@ import {
   Plus,
   User,
   BookCopy,
-  Gift
+  Gift,
+  ChevronDown
 } from 'lucide-react';
 
 const Accounting = () => {
@@ -38,6 +39,7 @@ const Accounting = () => {
     { id: 2, concept: 'Materiales aniversario', amount: 10, date: '20/06', category: 'Eventos' },
   ]);
 
+  const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('pagos');
   const [expenseTab, setExpenseTab] = useState('fijos');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -163,32 +165,73 @@ const Accounting = () => {
         {activeTab === 'pagos' && (
           <div className="mt-6 space-y-6">
             {/* Filtros */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <select
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-1 text-sm"
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-lg">
+              {/* Dropdown personalizado para estado */}
+              <div className="relative">
+                <button
+                  onClick={() => setIsStatusOpen(!isStatusOpen)}
+                  className="w-full flex justify-between items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow-sm transition-colors duration-200"
+                >
+                  {filterStatus === 'all' ? 'Todos' : filterStatus === 'paid' ? 'Pagados' : 'Pendientes'}
+                  <ChevronDown className={`h-4 w-4 transform transition-transform ${isStatusOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {isStatusOpen && (
+                  <div className="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md py-1 border border-gray-200">
+                    <button
+                      onClick={() => {
+                        setFilterStatus('all');
+                        setIsStatusOpen(false);
+                      }}
+                      className={`block w-full text-left px-4 py-2 text-sm ${filterStatus === 'all' ? 'bg-blue-100 text-blue-900' : 'text-gray-700 hover:bg-gray-100'}`}
+                    >
+                      Todos
+                    </button>
+                    <button
+                      onClick={() => {
+                        setFilterStatus('paid');
+                        setIsStatusOpen(false);
+                      }}
+                      className={`block w-full text-left px-4 py-2 text-sm ${filterStatus === 'paid' ? 'bg-blue-100 text-blue-900' : 'text-gray-700 hover:bg-gray-100'}`}
+                    >
+                      Pagados
+                    </button>
+                    <button
+                      onClick={() => {
+                        setFilterStatus('pending');
+                        setIsStatusOpen(false);
+                      }}
+                      className={`block w-full text-left px-4 py-2 text-sm ${filterStatus === 'pending' ? 'bg-blue-100 text-blue-900' : 'text-gray-700 hover:bg-gray-100'}`}
+                    >
+                      Pendientes
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Selector de mes */}
+              <div className="relative">
+                <input 
+                  type="month" 
+                  placeholder="Filtrar por mes"
+                  value={filterMonth}
+                  onChange={(e) => setFilterMonth(e.target.value)}
+                  className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
+                />
+              </div>
+
+              {/* Botón Exportar */}
+              <button 
+                className="flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-md shadow-sm transition-colors duration-200"
               >
-                <option value="all">Todos</option>
-                <option value="paid">Pagados</option>
-                <option value="pending">Pendientes</option>
-              </select>
-              <input 
-                type="month" 
-                placeholder="Filtrar por mes"
-                value={filterMonth}
-                onChange={(e) => setFilterMonth(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-1 text-sm"
-              />
-              <button className="border border-gray-300 rounded-md px-3 py-1 text-sm flex items-center justify-center hover:bg-gray-50">
-                <Download className="h-4 w-4 mr-2" />
+                <Download className="h-4 w-4" />
                 Exportar
               </button>
             </div>
   
             {/* Lista de pagos */}
-            <div className="border rounded-lg overflow-hidden">
-              <div className="w-[100%] sm:w-full overflow-x-auto">
+            <div className="border rounded-lg overflow-hidden responsive-gradual-width-accounting">
+              <div className="w-full overflow-x-auto">
                 <div className="min-w-max">
                   <div className="grid grid-cols-12 bg-gray-50 p-3 font-medium text-sm text-gray-600">
                     <div className="col-span-4">Alumno</div>
@@ -246,8 +289,7 @@ const Accounting = () => {
   
             {/* Gastos Fijos */}
             {expenseTab === 'fijos' && (
-              <div className="py-4">
-                <div className="border rounded-lg overflow-hidden">
+                <div className="border rounded-lg overflow-hidden responsive-gradual-width-accounting">
                   <div className="w-[100%] sm:w-full overflow-x-auto">
                     <div className="min-w-max">
                       <div className="grid grid-cols-10 bg-gray-50 p-3 font-medium text-sm text-gray-600">
@@ -267,7 +309,6 @@ const Accounting = () => {
                     </div>
                   </div>
                 </div>
-              </div>
             )}
   
             {/* Gastos Variables */}
@@ -282,7 +323,7 @@ const Accounting = () => {
                     Agregar Gasto
                   </button>
                 </div>
-                <div className="border rounded-lg overflow-hidden">
+                <div className="border rounded-lg overflow-hidden responsive-gradual-width-accounting">
                   <div className="w-[100%] sm:w-full overflow-x-auto">
                     <div className="min-w-max">
                       <div className="grid grid-cols-10 bg-gray-50 p-3 font-medium text-sm text-gray-600">
