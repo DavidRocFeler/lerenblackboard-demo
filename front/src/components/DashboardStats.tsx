@@ -11,7 +11,7 @@ import {
     const stats = {
       alumnosPendientes: 3,
       proximosEventos: 2,
-      gastosMes: 2450,
+      gastosMes: 43,
       anotacionesRecientes: 5,
     };
   
