@@ -298,7 +298,7 @@ const CalendarioEscolar = () => {
       {/* Modal para agregar eventos */}
       {mostrarModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9888]">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+          <div className="bg-white rounded-lg p-6 sm:max-w-md w-[90%]">
             <div className="mb-4">
               <h3 className="text-lg font-bold">Agregar Nuevo Evento</h3>
               <p className="text-sm text-gray-500">Crear un nuevo evento en el calendario</p>
