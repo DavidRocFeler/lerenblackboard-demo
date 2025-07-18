@@ -5,7 +5,7 @@ import { X } from 'lucide-react';
 const AddFeature = () => {
   return (
     <div className="relative flex justify-center items-center p-6 rounded-xl overflow-hidden shadow-lg  w-full h-screen ">
-        <Link href="/" className="absolute top-2 right-2 text-white hover:text-gray-200 transition-colors">
+        <Link href="/" className="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors">
           <X size={24} />
         </Link>
       

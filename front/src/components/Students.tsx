@@ -1,6 +1,8 @@
+'use client'
 import React, { useState, useEffect } from 'react';
 import { Download, Check, ClipboardList, Printer } from 'lucide-react';
 import StudentProfile from './StudentProfile';
+import { useRouter } from 'next/navigation';
 
 const Students = () => {
   const [activeTab, setActiveTab] = useState<'status' | 'control'>('status');
@@ -10,6 +12,12 @@ const Students = () => {
   const [paymentStatus, setPaymentStatus] = useState<Record<string, boolean>>({});
   const [currentDatePeru, setCurrentDatePeru] = useState<string>('');
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
+  
+  const router = useRouter()
+  
+  const handleRedirectNewFeature = () => {
+    router.push('/newfeature')
+  }
 
   const students = [
     { id: 'student-1', name: 'Valentina A.' },
@@ -127,7 +135,9 @@ const Students = () => {
           <div className="flex flex-col gap-4">
             <div className='flex flex-row'>
               <h2 className="text-xl font-bold text-blue-900">Gestión de Alumnos</h2>
-              <button className="px-3 py-1 text-sm text-white bg-blue-600 rounded-lg ml-auto">
+              <button 
+              onClick={handleRedirectNewFeature}
+              className="px-3 py-1 text-sm text-white bg-blue-600 rounded-lg ml-auto cursor-pointer">
                   Guardar
               </button>              
             </div>
@@ -148,7 +158,9 @@ const Students = () => {
               >
                 Control Diario
               </button>
-              <button className="flex items-center justify-center gap-1 px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
+              <button 
+              onClick={handleRedirectNewFeature}
+              className="cursor-pointer flex items-center justify-center gap-1 px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
                 <Download className="w-4 h-4" />
                 Exportar
               </button>

@@ -1,6 +1,6 @@
 'use client'
 import { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { 
   DollarSign, 
   ClipboardList, 
@@ -13,6 +13,7 @@ import {
   Gift,
   ChevronDown
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const Accounting = () => {
   // Datos de ejemplo
@@ -51,6 +52,13 @@ const Accounting = () => {
     date: '',
     category: ''
   });
+
+  const fechaInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter()
+  
+  const handleRedirectNewFeature = () => {
+    router.push('/newfeature')
+  }
 
   // Obtener fecha actual en formato MM/YYYY para Perú (UTC-5)
   const getCurrentMonthYearPeru = () => {
@@ -211,18 +219,18 @@ const Accounting = () => {
 
               {/* Selector de mes */}
               <div className="relative">
-                <input 
-                  type="month" 
-                  placeholder="Filtrar por mes"
-                  value={filterMonth}
-                  onChange={(e) => setFilterMonth(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
-                />
+                <input
+                    id="fecha"
+                    ref={fechaInputRef}
+                    type="date"
+                    className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                  />
               </div>
 
               {/* Botón Exportar */}
-              <button 
-                className="flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-md shadow-sm transition-colors duration-200"
+              <button
+                onClick={handleRedirectNewFeature} 
+                className="cursor-pointer flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-md shadow-sm transition-colors duration-200"
               >
                 <Download className="h-4 w-4" />
                 Exportar

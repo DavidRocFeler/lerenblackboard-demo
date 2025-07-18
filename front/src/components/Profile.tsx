@@ -1,3 +1,4 @@
+'use client'
 import { 
   DollarSign, 
   Clock, 
@@ -19,12 +20,19 @@ import NotesSection from "./NotesSection";
 import AccountingSection from "./AccountingSection";
 import { students } from "@/helpers/studentData.helpers";
 import GradeBook from "./GradeBook";
+import { useRouter } from "next/navigation";
 
 const Profile = () => {
   const [currentView, setCurrentView] = useState<"profile" | "balance" | "payments" | "notes" | "accounting" | "syllabus" | "gradebook">("profile");
   
   // Obtenemos los datos del estudiante 'student-1' del array importado
   const studentData = students.find(student => student.id === 'student-1');
+
+  const router = useRouter()
+  
+  const handleRedirectNewFeature = () => {
+    router.push('/newfeature')
+  }
   
   if (!studentData) {
     return (
@@ -100,7 +108,9 @@ const Profile = () => {
         </div>
         
         <div className="mb-[3rem] sm:absolute top-0 right-0">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+          <button 
+          onClick={handleRedirectNewFeature}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm cursor-pointer">
             Editar Perfil
           </button>
         </div>
