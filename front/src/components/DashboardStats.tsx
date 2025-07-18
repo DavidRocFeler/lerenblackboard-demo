@@ -33,7 +33,7 @@ import {
               Alumnos con pagos atrasados
             </p>
             <Link 
-              href="/alumnos?filter=pending" 
+              href="/" 
               className="text-blue-600 hover:text-blue-800 text-sm font-medium mt-2 inline-block"
             >
               Ver detalles
@@ -57,7 +57,7 @@ import {
               Eventos en los próximos 7 días
             </p>
             <Link 
-              href="/calendario" 
+              href="/" 
               className="text-green-600 hover:text-green-800 text-sm font-medium mt-2 inline-block"
             >
               Ver calendario
@@ -81,7 +81,7 @@ import {
               Total de gastos registrados
             </p>
             <Link 
-              href="/contabilidad?tab=gastos" 
+              href="/" 
               className="text-amber-600 hover:text-amber-800 text-sm font-medium mt-2 inline-block"
             >
               Ver desglose
@@ -105,7 +105,7 @@ import {
               Nuevas en los últimos 3 días
             </p>
             <Link 
-              href="/alumnos?tab=control" 
+              href="/" 
               className="text-red-600 hover:text-red-800 text-sm font-medium mt-2 inline-block"
             >
               Revisar
